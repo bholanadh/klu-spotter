@@ -1,0 +1,21 @@
+{
+  "overview": "KLU Spotter is a real-time empty room finder for KL University students. It features a dramatic animated entry screen, Internet Identity login, and a live room availability grid that shows which rooms are free right now based on the current session time.",
+  "features": [
+    "Animated entry screen with sliding red rectangles and burst login popup",
+    "Internet Identity authentication",
+    "Semester (Even/Odd) and Cluster (C1/C2) filter controls with holiday rules",
+    "Session-based scheduling engine covering S1-S13 (7:10 AM to 7:20 PM)",
+    "Real-time empty room grid with color-coded status (green=empty, red=occupied)",
+    "Room categories by campus block: R-Block, C-Block, M-Block"
+  ],
+  "category": "productivity",
+  "tags": [
+    "campus",
+    "university",
+    "room-finder",
+    "scheduling",
+    "klu",
+    "real-time"
+  ],
+  "last_updated": "2026-04-08T15:19:39.048Z"
+}

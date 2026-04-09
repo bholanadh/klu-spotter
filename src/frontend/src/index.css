@@ -1,0 +1,192 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: "Bricolage Grotesque", sans-serif;
+    --font-body: "DM Sans", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+    --radius: 0.5rem;
+
+    --background: 0.98 0 0;
+    --foreground: 0.15 0 0;
+    --card: 0.96 0 0;
+    --card-foreground: 0.15 0 0;
+    --popover: 0.99 0 0;
+    --popover-foreground: 0.15 0 0;
+
+    --primary: 0.52 0.23 25;
+    --primary-foreground: 0.98 0 0;
+
+    --secondary: 0.85 0 0;
+    --secondary-foreground: 0.2 0 0;
+    --muted: 0.92 0 0;
+    --muted-foreground: 0.55 0 0;
+
+    --accent: 0.75 0.25 142;
+    --accent-foreground: 0.15 0 0;
+
+    --destructive: 0.52 0.23 25;
+    --destructive-foreground: 0.98 0 0;
+
+    --border: 0.88 0 0;
+    --input: 0.92 0 0;
+    --ring: 0.52 0.23 25;
+
+    --chart-1: 0.75 0.25 142;
+    --chart-2: 0.52 0.23 25;
+    --chart-3: 0.65 0.18 40;
+    --chart-4: 0.55 0.15 290;
+    --chart-5: 0.7 0.2 70;
+
+    --sidebar: 0.96 0 0;
+    --sidebar-foreground: 0.15 0 0;
+    --sidebar-primary: 0.52 0.23 25;
+    --sidebar-primary-foreground: 0.98 0 0;
+    --sidebar-accent: 0.92 0 0;
+    --sidebar-accent-foreground: 0.2 0 0;
+    --sidebar-border: 0.88 0 0;
+    --sidebar-ring: 0.52 0.23 25;
+  }
+
+  .dark {
+    --background: 0.12 0 0;
+    --foreground: 0.95 0 0;
+    --card: 0.15 0 0;
+    --card-foreground: 0.95 0 0;
+    --popover: 0.18 0 0;
+    --popover-foreground: 0.95 0 0;
+
+    --primary: 0.65 0.22 25;
+    --primary-foreground: 0.12 0 0;
+
+    --secondary: 0.2 0 0;
+    --secondary-foreground: 0.9 0 0;
+    --muted: 0.2 0 0;
+    --muted-foreground: 0.6 0 0;
+
+    --accent: 0.82 0.28 142;
+    --accent-foreground: 0.12 0 0;
+
+    --destructive: 0.65 0.22 25;
+    --destructive-foreground: 0.95 0 0;
+
+    --border: 0.25 0 0;
+    --input: 0.2 0 0;
+    --ring: 0.65 0.22 25;
+
+    --chart-1: 0.82 0.28 142;
+    --chart-2: 0.65 0.22 25;
+    --chart-3: 0.7 0.22 40;
+    --chart-4: 0.6 0.2 290;
+    --chart-5: 0.75 0.25 70;
+
+    --sidebar: 0.15 0 0;
+    --sidebar-foreground: 0.95 0 0;
+    --sidebar-primary: 0.65 0.22 25;
+    --sidebar-primary-foreground: 0.95 0 0;
+    --sidebar-accent: 0.2 0 0;
+    --sidebar-accent-foreground: 0.9 0 0;
+    --sidebar-border: 0.25 0 0;
+    --sidebar-ring: 0.65 0.22 25;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .text-accent-bright {
+    @apply text-accent font-semibold;
+  }
+  .card-elevated {
+    @apply shadow-md border border-border;
+  }
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .font-body {
+    font-family: var(--font-body);
+  }
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+  /* Room card status glow */
+  .room-empty-glow {
+    box-shadow: 0 0 0 1px oklch(0.82 0.28 142 / 0.4), 0 4px 16px
+      oklch(0.82 0.28 142 / 0.15);
+  }
+  .room-occupied-glow {
+    box-shadow: 0 0 0 1px oklch(0.65 0.22 25 / 0.4), 0 4px 16px
+      oklch(0.65 0.22 25 / 0.15);
+  }
+  /* KLU red rectangle */
+  .klu-panel {
+    background: oklch(var(--primary));
+  }
+  /* Burst popup jagged border effect */
+  .burst-container {
+    clip-path: polygon(
+      0% 8%,
+      5% 0%,
+      12% 6%,
+      20% 0%,
+      28% 7%,
+      36% 0%,
+      44% 6%,
+      52% 0%,
+      60% 7%,
+      68% 0%,
+      76% 6%,
+      84% 0%,
+      92% 7%,
+      100% 0%,
+      100% 92%,
+      95% 100%,
+      87% 93%,
+      79% 100%,
+      71% 93%,
+      63% 100%,
+      55% 93%,
+      47% 100%,
+      39% 93%,
+      31% 100%,
+      23% 93%,
+      15% 100%,
+      7% 93%,
+      0% 100%
+    );
+  }
+}
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/assets/fonts/BricolageGrotesque.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("/assets/fonts/DMSans.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/assets/fonts/JetBrainsMono.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

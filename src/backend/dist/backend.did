@@ -1,0 +1,34 @@
+type SessionInfo = 
+ record {
+   endTime: text;
+   isActive: bool;
+   sessionId: SessionId;
+   sessionLabel: text;
+   startTime: text;
+ };
+type SessionId = text;
+type RoomStatus = 
+ variant {
+   EMPTY;
+   OCCUPIED;
+ };
+type Room = 
+ record {
+   block: Block;
+   currentSession: SessionId;
+   id: text;
+   occupiedBy: opt text;
+   status: RoomStatus;
+ };
+type Block = 
+ variant {
+   C_BLOCK;
+   M_BLOCK;
+   R_BLOCK;
+ };
+service : {
+  getClusterHoliday: (cluster: text, dayOfWeek: nat) -> (bool) query;
+  getCurrentSession: () -> (SessionInfo) query;
+  getRooms: () -> (vec Room) query;
+  getRoomsForDay: (dayOfWeek: nat, cluster: text) -> (vec Room) query;
+}

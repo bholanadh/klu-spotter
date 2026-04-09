@@ -1,0 +1,20 @@
+// Version: 1.0.0
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type ScheduleEntry__1053205509 =
+  {
+    cluster : Text;
+    dayOfWeek : Nat;
+    roomId : Text;
+    sessionId : SessionId__479564712;
+    subject : Text
+  };
+type SessionId__479564712 = Text;
+actor {
+  stable schedules :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?ScheduleEntry__1053205509]];
+      var elementIndex : Nat__490723111
+    }
+};
