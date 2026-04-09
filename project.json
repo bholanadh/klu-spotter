@@ -1,21 +1,22 @@
 {
-  "overview": "KLU Spotter is a real-time empty room finder for KL University students. It features a dramatic animated entry screen, Internet Identity login, and a live room availability grid that shows which rooms are free right now based on the current session time.",
+  "overview": "KLU Spotter is a Smart Campus Occupancy System for KL University that helps students find empty classrooms in real time. It features a dramatic animated auth screen, live session-based room availability, cluster-specific schedule rules, and a dark-themed room grid with glowing status badges — all powered by a Motoko backend storing the full timetable.",
   "features": [
-    "Animated entry screen with sliding red rectangles and burst login popup",
+    "Animated auth screen with sliding red panels and burst login popup",
     "Internet Identity authentication",
-    "Semester (Even/Odd) and Cluster (C1/C2) filter controls with holiday rules",
-    "Session-based scheduling engine covering S1-S13 (7:10 AM to 7:20 PM)",
-    "Real-time empty room grid with color-coded status (green=empty, red=occupied)",
-    "Room categories by campus block: R-Block, C-Block, M-Block"
+    "Live session engine mapping S1-S13 (7:10 AM–7:20 PM) to current time",
+    "Semester selector (Odd/Even) with error toasts",
+    "Cluster toggle C1 (Saturday off) / C2 (Monday off) with holiday enforcement",
+    "Dark-themed room grid organized by block (R/C/M) with glowing green Empty badges",
+    "Full backend timetable storage in Motoko canister — no hardcoded data"
   ],
   "category": "productivity",
   "tags": [
     "campus",
-    "university",
     "room-finder",
     "scheduling",
     "klu",
-    "real-time"
+    "real-time",
+    "timetable"
   ],
-  "last_updated": "2026-04-08T15:19:39.048Z"
+  "last_updated": "2026-04-09T06:00:34.050Z"
 }

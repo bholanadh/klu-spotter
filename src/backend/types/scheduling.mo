@@ -30,10 +30,10 @@ module {
 
   // Session info returned by getCurrentSession()
   public type SessionInfo = {
-    sessionId : SessionId;
-    sessionLabel : Text;    // human-readable label e.g. "S1,2"
-    startTime : Text;       // e.g. "7:10 AM"
-    endTime   : Text;       // e.g. "8:50 AM"
-    isActive  : Bool;       // true if current time falls within this session window
+    sessionId    : SessionId;
+    sessionLabel : Text;   // human-readable label e.g. "S1,2"
+    startTime    : Text;   // e.g. "7:10 AM"
+    endTime      : Text;   // e.g. "8:50 AM"
+    isActive     : Bool;   // true if current time falls within this session window
   };
 };

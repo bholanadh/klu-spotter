@@ -1,3 +1,4 @@
+import type { backendInterface } from "@/backend";
 import type { Room, SessionInfo } from "@/types";
 import { SESSION_TIMINGS } from "@/types";
 import { useActor } from "@caffeineai/core-infrastructure";
@@ -30,87 +31,81 @@ function computeCurrentSession(): SessionInfo {
 }
 
 // Seed rooms for local computation when backend is empty
+// Exactly 9 rooms as per spec: R206A, R207, R208 (R-Block), C207, C208, C301 (C-Block), M101, M102, M201 (M-Block)
 const SEED_ROOMS: Room[] = [
   // R-Block
-  ...[
-    "R101",
-    "R102",
-    "R103",
-    "R104",
-    "R105",
-    "R106",
-    "R201",
-    "R202",
-    "R203",
-    "R204",
-    "R205",
-    "R206A",
-    "R206B",
-    "R207",
-    "R301",
-    "R302",
-    "R303",
-    "R304",
-    "R305",
-  ].map((id) => ({
-    id,
-    block: "R_BLOCK" as const,
-    status: "EMPTY" as const,
+  {
+    id: "R206A",
+    block: "R_BLOCK",
+    status: "EMPTY",
     currentSession: "S1_2",
     occupiedBy: undefined,
-  })),
+  },
+  {
+    id: "R207",
+    block: "R_BLOCK",
+    status: "OCCUPIED",
+    currentSession: "S1_2",
+    occupiedBy: "20BCE1234",
+  },
+  {
+    id: "R208",
+    block: "R_BLOCK",
+    status: "EMPTY",
+    currentSession: "S1_2",
+    occupiedBy: undefined,
+  },
   // C-Block
-  ...[
-    "C101",
-    "C102",
-    "C103",
-    "C104",
-    "C105",
-    "C201",
-    "C202",
-    "C203",
-    "C204",
-    "C205",
-    "C206",
-    "C207",
-    "C301",
-    "C302",
-    "C303",
-    "C304",
-  ].map((id) => ({
-    id,
-    block: "C_BLOCK" as const,
-    status: "EMPTY" as const,
+  {
+    id: "C207",
+    block: "C_BLOCK",
+    status: "OCCUPIED",
+    currentSession: "S1_2",
+    occupiedBy: "20BCE5678",
+  },
+  {
+    id: "C208",
+    block: "C_BLOCK",
+    status: "EMPTY",
     currentSession: "S1_2",
     occupiedBy: undefined,
-  })),
+  },
+  {
+    id: "C301",
+    block: "C_BLOCK",
+    status: "OCCUPIED",
+    currentSession: "S1_2",
+    occupiedBy: "20BCE9012",
+  },
   // M-Block
-  ...[
-    "M101",
-    "M102",
-    "M103",
-    "M104",
-    "M201",
-    "M202",
-    "M203",
-    "M204",
-    "M301",
-    "M302",
-    "M303",
-  ].map((id) => ({
-    id,
-    block: "M_BLOCK" as const,
-    status: "EMPTY" as const,
+  {
+    id: "M101",
+    block: "M_BLOCK",
+    status: "EMPTY",
     currentSession: "S1_2",
     occupiedBy: undefined,
-  })),
+  },
+  {
+    id: "M102",
+    block: "M_BLOCK",
+    status: "OCCUPIED",
+    currentSession: "S1_2",
+    occupiedBy: "20BCE3456",
+  },
+  {
+    id: "M201",
+    block: "M_BLOCK",
+    status: "EMPTY",
+    currentSession: "S1_2",
+    occupiedBy: undefined,
+  },
 ];
 
-// Randomly assign some rooms as occupied for realistic demo
+// Deterministic occupancy for demo when backend is empty
 function applyRealisticOccupancy(rooms: Room[], sessionId: string): Room[] {
-  if (sessionId === "NONE")
-    return rooms.map((r) => ({ ...r, status: "EMPTY" as RoomStatus }));
-  // Use a deterministic hash of room id + sessionId to toggle occupancy
+  if (sessionId === "NONE") {
+    return rooms.map((r) => ({ ...r, status: "EMPTY" as const }));
+  }
   return rooms.map((room) => {
     const hash = [...`${room.id}${sessionId}`].reduce(
       (acc, c) => acc + c.charCodeAt(0),
@@ -121,8 +116,6 @@ function applyRealisticOccupancy(rooms: Room[], sessionId: string): Room[] {
   });
 }
 
-type RoomStatus = "EMPTY" | "OCCUPIED";
-
 export function useRooms(dayOfWeek: number, cluster: string) {
   const { actor, isFetching: actorFetching } = useActor(
     import.meta.env.VITE_CANISTER_ID_BACKEND ?? "",
@@ -132,18 +125,18 @@ export function useRooms(dayOfWeek: number, cluster: string) {
   return useQuery<Room[]>({
     queryKey: ["rooms", dayOfWeek, cluster, session.sessionId],
     queryFn: async () => {
-      // Try backend first, fall back to seed data
       try {
         if (actor) {
-          const backendRooms = await (
-            actor as unknown as {
-              getRooms: (day: number, cluster: string) => Promise<Room[]>;
-            }
-          ).getRooms(dayOfWeek, cluster);
-          if (backendRooms && backendRooms.length > 0) return backendRooms;
+          const backendActor = actor as unknown as backendInterface;
+          const backendRooms = await backendActor.getRoomsForDay(
+            BigInt(dayOfWeek),
+            cluster,
+          );
+          if (backendRooms && backendRooms.length > 0)
+            return backendRooms as Room[];
         }
       } catch {
-        // backend method not yet available — use seed data
+        // backend not yet seeded — fall through to seed data
       }
       return applyRealisticOccupancy(SEED_ROOMS, session.sessionId);
     },

@@ -1,3 +1,4 @@
+import type { backendInterface } from "@/backend";
 import type { SessionInfo } from "@/types";
 import { SESSION_TIMINGS } from "@/types";
 import { useActor } from "@caffeineai/core-infrastructure";
@@ -38,15 +39,12 @@ export function useCurrentSession() {
     queryFn: async () => {
       try {
         if (actor) {
-          const backendSession = await (
-            actor as unknown as {
-              getCurrentSession: () => Promise<SessionInfo>;
-            }
-          ).getCurrentSession();
-          if (backendSession) return backendSession;
+          const backendActor = actor as unknown as backendInterface;
+          const backendSession = await backendActor.getCurrentSession();
+          if (backendSession) return backendSession as SessionInfo;
         }
       } catch {
-        // backend method not yet available — compute locally
+        // backend not yet available — compute locally
       }
       return computeCurrentSession();
     },

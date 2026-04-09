@@ -21,12 +21,11 @@ export function Layout({ children, bare = false }: LayoutProps) {
   return (
     <>
       <div className="min-h-screen bg-background text-foreground flex flex-col">
-        {/* App-level content rendered by each page (dashboard has its own nav) */}
         <main className="flex-1 flex flex-col">{children}</main>
-
         <footer className="bg-card border-t border-border py-3 px-6 text-center">
           <p className="text-muted-foreground text-xs font-body">
-            © {new Date().getFullYear()} KLU Spotter. Built with love using{" "}
+            © {new Date().getFullYear()} KLU Spotter · Smart Campus Occupancy.
+            Built with love using{" "}
             <a
               href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(
                 typeof window !== "undefined" ? window.location.hostname : "",
